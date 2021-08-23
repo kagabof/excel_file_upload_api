@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-unused-expressions */
+import crypto from 'crypto';
+
 /**
  * This function returns an object and validate a row
  * @param { obj } row data
@@ -23,6 +25,7 @@ const rowValidate = (obj, file_id) => {
   !regEmail.test(obj?.email || '') && (errors.email = 'Invalid email');
   return {
     file_id,
+    id: crypto.randomBytes(16).toString('hex'),
     ...obj,
     errors: JSON.stringify(errors),
   };

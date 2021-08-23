@@ -27,7 +27,11 @@ const getData = async (req, res) => {
     limit: limit ? parseInt(limit, 10) : null,
     offset: offset ? parseInt(offset, 10) : null,
   });
-  return onSuccess(res, 200, 'Data found successfully.', fileData);
+  const dataObj = fileData?.length ? fileData.map((element) => ({
+    ...element.toJSON(),
+    errors: JSON.parse(element.toJSON()?.errors || {}),
+  })) : {};
+  return onSuccess(res, 200, 'Data found successfully.', dataObj);
 };
 
 export default getData;

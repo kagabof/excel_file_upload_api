@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { Op } from 'sequelize';
-import FileInfo from '../models/file_info.model';
 import PopulationInfo from '../models/population_info.model';
 import { onError, onSuccess } from '../utils/response';
 
@@ -13,7 +12,7 @@ const getFileUploaded = async (req, res) => {
     committed,
     recordId,
   } = req.query;
-  const foundFile = await FileInfo.findOne({ where: { id: fileId } });
+  const foundFile = req.fileInfo;
   if (!foundFile) {
     return onError(res, 404, 'File not found!');
   }
