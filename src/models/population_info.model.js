@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import { sequelize } from '../config/dbConnect';
 
 const PopulationInfo = sequelize.define(
@@ -9,7 +9,7 @@ const PopulationInfo = sequelize.define(
       type: Sequelize.CHAR(255),
       allowNull: false,
       primaryKey: true,
-      defaultValue: uuidv4(),
+      defaultValue: crypto.randomBytes(16).toString('hex'),
     },
     file_id: {
       type: Sequelize.CHAR(255),
@@ -40,15 +40,15 @@ const PopulationInfo = sequelize.define(
       allowNull: true,
     },
     entry_date: {
-      type: Sequelize.DATEONLY,
+      type: Sequelize.DATE,
       allowNull: true,
     },
     updated_date: {
-      type: Sequelize.DATEONLY,
+      type: Sequelize.DATE,
       allowNull: true,
       defaultValue: new Date(),
     },
-    isCommited: {
+    isCommitted: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
       defaultValue: false,

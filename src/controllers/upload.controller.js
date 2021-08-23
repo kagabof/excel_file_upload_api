@@ -29,10 +29,11 @@ const uploadController = async (req, res) => {
   if (!isFieldValid) {
     return res.status(401).json({ error: 'Invalid file' });
   }
+  const fileRows = fileData[0]?.data.filter((el) => el?.length) || [];
   const fileD = await FileInfo.create({
     name: data?.fileName,
     size: data?.buffer?.length,
-    number_of_rows: fileData[0]?.data?.length,
+    number_of_rows: fileRows?.length || 0,
     uploaded_date: currentTime,
   });
   if (!fileD) {
@@ -42,17 +43,17 @@ const uploadController = async (req, res) => {
   }
   const rows = [];
   fileData[0]?.data?.forEach((item, index) => {
-    if (index) {
+    if (index && fileRows[index]?.length) {
       rows.push(rowValidate(
         rowToObject(
-          fileData[0]?.data[0],
-          fileData[0]?.data[1],
+          fileRows[0],
+          fileRows[index],
         ),
         fileD?.toJSON()?.id,
       ));
     }
   });
-  if (!rows.length) {
+  if (rows.length) {
     const insertedData = PopulationInfo.bulkCreate(rows);
     if (insertedData) {
       return res.status(201).json({

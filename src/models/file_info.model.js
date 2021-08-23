@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import { sequelize } from '../config/dbConnect';
 
 const FileInfo = sequelize.define(
@@ -9,7 +9,7 @@ const FileInfo = sequelize.define(
       type: Sequelize.CHAR(255),
       allowNull: false,
       primaryKey: true,
-      defaultValue: uuidv4(),
+      defaultValue: crypto.randomBytes(16).toString('hex'),
     },
     name: {
       type: Sequelize.CHAR(255),
@@ -24,7 +24,7 @@ const FileInfo = sequelize.define(
       allowNull: false,
     },
     uploaded_date: {
-      type: Sequelize.DATEONLY,
+      type: Sequelize.DATE,
       allowNull: false,
     },
   },
