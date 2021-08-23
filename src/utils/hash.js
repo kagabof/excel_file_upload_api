@@ -7,3 +7,8 @@ export const hashPassword = async (textPassword) => {
   const hash = bcrypt.hashSync(textPassword, salt);
   return hash;
 };
+
+export const hashCompare = async (textPassword, hash) => {
+  const isEqual = await bcrypt.compareSync(textPassword, hash);
+  return isEqual;
+};
