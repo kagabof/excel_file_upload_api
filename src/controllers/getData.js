@@ -6,7 +6,7 @@ import { onSuccess } from '../utils/response';
 
 const getData = async (req, res) => {
   const {
-    offset, limit, withErrors, committed, fileId,
+    offset, limit, withErrors, committed, fileId, recordId,
   } = req.query;
 
   const errors = withErrors === 'true'
@@ -16,11 +16,13 @@ const getData = async (req, res) => {
       : { errors: '{}' };
   const isCommitted = committed === undefined ? {} : { isCommitted: committed === 'true' };
   const file_id = !fileId ? {} : { file_id: fileId };
+  const record = recordId ? { id: recordId } : {};
   const fileData = await PopulationInfo.findAll({
     where: {
       ...file_id,
       ...errors,
       ...isCommitted,
+      ...record,
     },
     limit: limit ? parseInt(limit, 10) : null,
     offset: offset ? parseInt(offset, 10) : null,
