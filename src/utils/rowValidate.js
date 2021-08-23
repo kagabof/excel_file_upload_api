@@ -9,7 +9,7 @@ import crypto from 'crypto';
  * @returns { object } return an object
  */
 const rowValidate = (obj, file_id) => {
-  const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+  const regName = /^[a-zA-Z]+ [a-zA-Z ]+$/;
   const regPhoneNumber = /\+?[0-9]{12}/;
   const regNID = /^[0-9]{16}/;
   ('female');
